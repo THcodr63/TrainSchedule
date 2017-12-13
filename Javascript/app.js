@@ -1,42 +1,42 @@
 var config = {
-    apiKey: "AIzaSyD3Rvx44wTKruWOdHK9VHknfg4ysXpMBj0",
-    authDomain: "fir-demo-a0d6c.firebaseapp.com",
-    databaseURL: "https://fir-demo-a0d6c.firebaseio.com",
-    projectId: "fir-demo-a0d6c",
-    storageBucket: "fir-demo-a0d6c.appspot.com",
-    messagingSenderId: "129338447738"
-  };
+  apiKey: "AIzaSyDnta9ECIvZ5HeSOBESZrH0Mxb43SbeGbY",
+  authDomain: "train-sched-8fcf1.firebaseapp.com",
+  databaseURL: "https://train-sched-8fcf1.firebaseio.com",
+  projectId: "train-sched-8fcf1",
+  storageBucket: "train-sched-8fcf1.appspot.com",
+  messagingSenderId: "114963904323"
+};
 
 firebase.initializeApp(config);
  
 var database = firebase.database();
 
-$("#add-train-btn").on("click", function(event) {
+$("#addTrainBtn").on("click", function(event) {
   event.preventDefault();
 
-  var trainName = $("#train-name-input").val();
-  var trainDest = $("#dest-input").val();
-  var firstTrain = moment($("#first-input").val(), "hh:mm").subtract(10, "years").format("X");
-  var trainFreq = $("#freq-input").val();
+  var trainName = $("#trainNameInput").val();
+  var destination = $("#destInput").val();
+  var trainTime = moment($("#timeInput").val(), "hh:mm").subtract(10, "years").format("X");
+  var frequency = $("#freqInput").val();
 
   var addedTrain = {
-    Name: trainName,
-    Destination: trainDest,
-    First: firstTrain,
-    Frequency: trainFreq
+    name: trainName,
+    destination: destination,
+    time: trainTime,
+    frequency: frequency
   }
 
       trainData.push(addedTrain);
 
-      console.log(addedTrain.Name);
-      console.log(addedTrain.Destination); 
-      console.log(addedTrain.First);
-      console.log(addedTrain.Frequency);
+      console.log(addedTrain.name);
+      console.log(addedTrain.destination); 
+      console.log(addedTrain.first);
+      console.log(addedTrain.frequency);
 
-      $("#train-name-input").val("");
-      $("#dest-input").val("");
-      $("#first-input").val("");
-      $("#freq-input").val("");
+      $("#trainNameInput").val("");
+      $("#destInput").val("");
+      $("#firstInput").val("");
+      $("#freqTnput").val("");
 
       return false;
 
@@ -44,9 +44,9 @@ $("#add-train-btn").on("click", function(event) {
 
   trainData.on("child_added", function(childSnapshot, prevChildKey) {
 
-    var nameTrain = childSnapshot.val().Name;
-    var desTrain = childSnapshot.val().Destination;
-    var freqTrain = childSnapshot.val().Frequency;
+    var nameTrain = childSnapshot.val().name;
+    var desTrain = childSnapshot.val().destination;
+    var freqTrain = childSnapshot.val().frequency;
     var trainFirst = childSnapshot.val().First;
 
     var diffTimes = moment().diff(moment.unix(trainFirst), "minutes");
@@ -55,7 +55,7 @@ $("#add-train-btn").on("click", function(event) {
 
     var nextArrv = moment().add(trainMin, "m").format("hh:mm A");
 
-   $("#train-table > tbody").append("<tr><td>" + nameTrain + "</td><td>" + desTrain + "</td><td>" +
+   $("#trainTable > tbody").append("<tr><td>" + nameTrain + "</td><td>" + desTrain + "</td><td>" +
   freqTrain + "</td><td>" + nextArrv + "</td><td>" + trainMin + "</td></tr>");
 
   });

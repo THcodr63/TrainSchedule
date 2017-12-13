@@ -27,6 +27,11 @@
 .jumbotron .container {
   max-width: 100%;
 }
+
+.panel {
+  border: 1px solid;
+  border-color: #d52b1e;
+}
 @media screen and (min-width: 768px) {
   .jumbotron {
     padding-top: 48px;
