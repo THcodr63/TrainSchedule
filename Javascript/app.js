@@ -9,53 +9,49 @@ var config = {
 
 firebase.initializeApp(config);
  
-var database = firebase.database();
+var trainData = firebase.database();
 
-$("#addTrainBtn").on("click", function(event) {
-  event.preventDefault();
-
-  var trainName = $("#trainNameInput").val();
-  var destination = $("#destInput").val();
-  var trainTime = moment($("#timeInput").val(), "hh:mm").subtract(10, "years").format("X");
-  var frequency = $("#freqInput").val();
+$("#addTrainBtn").on("click", function() {
+    var trainName = $("#trainNameInput").val();
+    var destination = $("#destInput").val();
+    var trainTime = moment($("#timeInput").val(), "HH:mm").subtract(10, "years").format("X");
+    var frequency = $("#freqInput").val();
 
   var addedTrain = {
     name: trainName,
     destination: destination,
-    time: trainTime,
+    trainTime: trainTime,
     frequency: frequency
   }
 
-      trainData.push(addedTrain);
+    trainData.ref().push(addedTrain);
 
-      console.log(addedTrain.name);
-      console.log(addedTrain.destination); 
-      console.log(addedTrain.first);
-      console.log(addedTrain.frequency);
+    alert("Train added!!")
 
       $("#trainNameInput").val("");
       $("#destInput").val("");
-      $("#firstInput").val("");
+      $("#timetInput").val("");
       $("#freqTnput").val("");
 
       return false;
 
-    });
+  })
 
-  trainData.on("child_added", function(childSnapshot, prevChildKey) {
+  trainData.ref().on("child_added", function(snapshot) {
+    var name = snapshot.val().name;
+    var destination = snapshot.val().destination;
+    var frequency = snapshot.val().frequency;
+    var trainTime = snapshot.val().trainTime;
 
-    var nameTrain = childSnapshot.val().name;
-    var desTrain = childSnapshot.val().destination;
-    var freqTrain = childSnapshot.val().frequency;
-    var trainFirst = childSnapshot.val().First;
+    var remainder = moment().diff(moment.unix(trainTime), "minutes")%frequency;
+    var minutes = frequency - remainder;
+    var arrival = moment().add(minutes, "m").format("hh:mm A");
 
-    var diffTimes = moment().diff(moment.unix(trainFirst), "minutes");
-    var trainRemain = moment().diff(moment.unix(trainFirst), "minutes") % freqTrain;
-    var trainMin = freqTrain - trainRemain;
+    console.log(remainder);
+    console.log(minutes);
+    console.log(arrival);
 
-    var nextArrv = moment().add(trainMin, "m").format("hh:mm A");
-
-   $("#trainTable > tbody").append("<tr><td>" + nameTrain + "</td><td>" + desTrain + "</td><td>" +
-  freqTrain + "</td><td>" + nextArrv + "</td><td>" + trainMin + "</td></tr>");
+   $("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + destination + "</td><td>" +
+  frequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
 
   });

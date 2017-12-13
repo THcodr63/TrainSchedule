@@ -30,7 +30,11 @@
 
 .panel {
   border: 1px solid;
-  border-color: #d52b1e;
+  border-color: lightseagreen;
+}
+
+.btn {
+  background-color: lightseagreen;
 }
 @media screen and (min-width: 768px) {
   .jumbotron {
