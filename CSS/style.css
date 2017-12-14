@@ -1,3 +1,7 @@
+h1 h3 .panel-heading {
+  font-family: "Emilys Candy", cursive;
+} 
+
 .jumbotron {
   padding-top: 30px;
   padding-bottom: 30px;
@@ -35,6 +39,7 @@
 
 .btn {
   background-color: lightseagreen;
+  font-family: 'Emilys Candy', cursive;
 }
 @media screen and (min-width: 768px) {
   .jumbotron {
